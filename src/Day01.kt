@@ -1,12 +1,10 @@
 fun main() {
-    fun groupedElves(input: List<String>): List<List<Int>> {
+    fun groupedElves(input: List<String>): List<List<Int>> = input
+        .chunkedBy { it.isBlank() }
+        .map { elf ->
+            elf.map { it.toInt() }
+        }
 
-        return input
-            .chunkedBy { it.isBlank() }
-            .map { elf ->
-                elf.map { it.toInt() }
-            }
-    }
 
     fun part1(input: List<String>): Int {
         return groupedElves(input)
