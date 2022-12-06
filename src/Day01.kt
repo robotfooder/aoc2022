@@ -1,11 +1,11 @@
 fun main() {
     fun getAllElves(input: List<String>): List<List<Int>> {
         val allElves = mutableListOf<List<Int>>()
-        var perElf = ArrayList<Int>()
+        var perElf = mutableListOf<Int>()
         var firstRowPerElf = true
         for (s in input) {
             if (s == "") {
-                perElf = ArrayList()
+                perElf = mutableListOf()
                 firstRowPerElf = true
             } else {
                 if (firstRowPerElf) {
