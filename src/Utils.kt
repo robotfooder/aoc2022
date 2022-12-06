@@ -8,6 +8,17 @@ import java.security.MessageDigest
 fun readInput(name: String) = File("src", "$name.txt")
     .readLines()
 
+fun <T> List<T>.chunkedBy(selector: (T) -> Boolean): List<List<T>> =
+    fold(mutableListOf(mutableListOf<T>())) { acc, ele ->
+
+        if (selector(ele)) {
+            acc.add(mutableListOf())
+        } else {
+            acc.last().add(ele)
+        }
+        acc
+    }
+
 /**
  * Converts string to md5 hash.
  */

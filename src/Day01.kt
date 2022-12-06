@@ -1,32 +1,22 @@
 fun main() {
-    fun getAllElves(input: List<String>): List<List<Int>> {
-        val allElves = mutableListOf<List<Int>>()
-        var perElf = mutableListOf<Int>()
-        var firstRowPerElf = true
-        for (s in input) {
-            if (s == "") {
-                perElf = mutableListOf()
-                firstRowPerElf = true
-            } else {
-                if (firstRowPerElf) {
-                    allElves.add(perElf)
-                    firstRowPerElf = false
-                }
-                perElf.add(s.toInt())
+    fun groupedElves(input: List<String>): List<List<Int>> {
+
+        return input
+            .chunkedBy { it.isBlank() }
+            .map { elf ->
+                elf.map { it.toInt() }
             }
-        }
-        return allElves
     }
 
     fun part1(input: List<String>): Int {
-        return getAllElves(input)
+        return groupedElves(input)
             .maxOf { it.sum() }
 
     }
 
 
     fun part2(input: List<String>): Int {
-        return getAllElves(input)
+        return groupedElves(input)
             .sortedByDescending { it.sum() }
             .take(3)
             .sumOf { it.sum() }
