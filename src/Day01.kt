@@ -6,19 +6,15 @@ fun main() {
         }
 
 
-    fun part1(input: List<String>): Int {
-        return groupedElves(input)
-            .maxOf { it.sum() }
-
-    }
+    fun part1(input: List<String>): Int = groupedElves(input)
+        .maxOf { it.sum() }
 
 
-    fun part2(input: List<String>): Int {
-        return groupedElves(input)
-            .sortedByDescending { it.sum() }
-            .take(3)
-            .sumOf { it.sum() }
-    }
+    fun part2(input: List<String>): Int = groupedElves(input)
+        .sortedByDescending { it.sum() }
+        .take(3)
+        .sumOf { it.sum() }
+
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day01_test")
