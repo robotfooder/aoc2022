@@ -5,7 +5,10 @@ import java.security.MessageDigest
 /**
  * Reads lines from the given input txt file.
  */
-fun readInput(name: String) = File("src", "$name.txt")
+fun readInput(name: String) = File("src", "main/resources/$name/input.txt")
+    .readLines()
+
+fun readTestInput(name: String) = File("src", "main/resources/$name/input_test.txt")
     .readLines()
 
 fun <T> List<T>.chunkedBy(selector: (T) -> Boolean): List<List<T>> =

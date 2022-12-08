@@ -22,7 +22,7 @@ fun main() {
 
 
     fun runTest(expected: Int, day: String, testFunction: (List<String>) -> Int) {
-        val actual = testFunction(readInput("Day${day}_test"))
+        val actual = testFunction(readTestInput(day))
         check(expected == actual)
         {
             "Failing for day $day, ${testFunction}. " +
@@ -38,7 +38,7 @@ fun main() {
     runTest(4, day, ::part2)
 
 
-    val input = readInput("Day$day")
+    val input = readInput(day)
     println(part1(input))
     println(part2(input))
 }
