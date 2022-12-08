@@ -1,25 +1,24 @@
 fun main() {
 
 
-    fun isOverLapping(it: Pair<IntRange, IntRange>): Boolean {
-        val (first, second) = it
-        return first.toSet().containsAll(second.toSet()) || second.toSet().containsAll(first.toSet())
+    fun isFullyOverLapping(it: Pair<IntRange, IntRange>): Boolean =
+        it.first.toSet().containsAll(it.second.toSet()) || it.second.toSet().containsAll(it.first.toSet())
 
-    }
+
+    fun isOverLapping(it: Pair<IntRange, IntRange>): Boolean =
+        (it.first.toSet() intersect it.second.toSet()).isNotEmpty()
+
 
     fun part1(input: List<String>): Int = input
         .map { it.split(",") }
-        .map { it.first() to it.last() }
-        .map { it.ranges() }
+        .map { it.first().ranges() to it.last().ranges() }
+        .count { isFullyOverLapping(it) }
+
+
+    fun part2(input: List<String>): Int = input
+        .map { it.split(",") }
+        .map { it.first().ranges() to it.last().ranges() }
         .count { isOverLapping(it) }
-
-
-    fun part2(input: List<String>): Int {
-        return input
-            .size
-
-
-    }
 
 
     fun runTest(expected: Int, day: String, testFunction: (List<String>) -> Int) {
@@ -34,9 +33,9 @@ fun main() {
 
     val day = "04"
 
-    // test if implementation meets criteria from the description, like:
+// test if implementation meets criteria from the description, like:
     runTest(2, day, ::part1)
-    //runTest(70, day, ::part2)
+    runTest(4, day, ::part2)
 
 
     val input = readInput("Day$day")
@@ -44,10 +43,6 @@ fun main() {
     println(part2(input))
 }
 
-fun Pair<String, String>.ranges(): Pair<IntRange, IntRange> {
-    val (e1, e2) = this
-    return e1.ranges() to e2.ranges()
-}
 
 fun String.ranges(): IntRange {
     val numbers = this.split("-").map { it.toInt() }
