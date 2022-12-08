@@ -29,3 +29,4 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
 fun String.split(index: Int): Pair<String, String> = this.substring(0, index) to this.substring(index)
 
 fun Char.score(): Int = if (this.isUpperCase()) this.code - 38 else this.code - 96
+
