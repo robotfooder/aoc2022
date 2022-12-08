@@ -1,26 +1,12 @@
 fun main() {
 
-
-    fun analyzeRuckContent(ruckContent: String): Int {
-
-        val compartment1 = ruckContent.substring(0, ruckContent.length / 2).toCharArray()
-        val compartment2 = ruckContent.substring(ruckContent.length / 2).toCharArray()
-        check(compartment2.size == compartment1.size) {
-            "Check $ruckContent"
+    fun part1(input: List<String>): Int = input
+        .map { it.split(it.length / 2) }
+        .map { (c1, c2) -> c1.toSet().intersect(c2.toSet()) }
+        .sumOf { matchedChars ->
+            matchedChars
+                .sumOf { if (it.isUpperCase()) it.code - 38 else it.code - 96 }
         }
-
-        return compartment2
-            .filter { compartment1.contains(it) }
-            .distinct()
-            .sumOf { if (it.isUpperCase()) it.code - 38 else it.code - 96 }
-
-    }
-
-    fun part1(input: List<String>): Int {
-
-        return input.sumOf { analyzeRuckContent(it) }
-
-    }
 
     fun part2(input: List<String>): Int {
         return input
@@ -42,7 +28,7 @@ fun main() {
 
     // test if implementation meets criteria from the description, like:
     runTest(157, day, ::part1)
-    runTest(70, day, ::part2)
+    //runTest(70, day, ::part2)
 
 
     val input = readInput("Day$day")
