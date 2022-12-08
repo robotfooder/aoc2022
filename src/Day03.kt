@@ -2,15 +2,16 @@ fun main() {
 
     fun part1(input: List<String>): Int = input
         .map { it.split(it.length / 2) }
-        .map { (c1, c2) -> c1.toSet().intersect(c2.toSet()) }
-        .sumOf { matchedChars ->
-            matchedChars
-                .sumOf { if (it.isUpperCase()) it.code - 38 else it.code - 96 }
-        }
+        .flatMap { (c1, c2) -> c1.toSet() intersect c2.toSet() }
+        .sumOf { it.score() }
+
 
     fun part2(input: List<String>): Int {
         return input
-            .size
+            .chunked(3)
+            .flatMap { it[0].toSet() intersect it[1].toSet() intersect it[2].toSet() }
+            .sumOf { it.score() }
+
 
     }
 
@@ -28,7 +29,7 @@ fun main() {
 
     // test if implementation meets criteria from the description, like:
     runTest(157, day, ::part1)
-    //runTest(70, day, ::part2)
+    runTest(70, day, ::part2)
 
 
     val input = readInput("Day$day")
