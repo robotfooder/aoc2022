@@ -45,7 +45,9 @@ fun main() {
 
 
 fun String.ranges(): IntRange {
-    val numbers = this.split("-").map { it.toInt() }
-    return IntRange(numbers.first(), numbers.last())
+    return this.split("-")
+        .map { it.toInt() }
+        .zipWithNext { a, b -> IntRange(a, b) }
+        .first()
 
 }

@@ -1,7 +1,7 @@
 fun main() {
 
     fun part1(input: List<String>): Int = input
-        .map { it.split(it.length / 2) }
+        .map { it.splitToPair(it.length / 2) }
         .flatMap { (c1, c2) -> c1.toSet() intersect c2.toSet() }
         .sumOf { it.score() }
 
