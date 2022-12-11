@@ -64,7 +64,6 @@ fun main() {
     fun part2(input: List<String>): String {
         val stacks = parseToStack(input)
         val instructions = parseInstructions(input)
-        val cratesStart = stacks.sumOf { it.size }
 
         instructions.forEach { instruction ->
             val fromStack = stacks[instruction.from - 1]
@@ -75,10 +74,6 @@ fun main() {
 
         }
 
-        val cratesEnd = stacks.sumOf { it.size }
-        check(cratesStart == cratesEnd) {
-            "Crates diff. Start: $cratesStart. End: $cratesEnd"
-        }
         return stacks.joinToString(separator = "") {
             if (it.isNotEmpty()) it.first() else ""
         }
