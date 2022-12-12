@@ -1,11 +1,11 @@
 fun main() {
 
-    val SIGNAL_START_LENGTH = 4
 
     fun String.allUnique(): Boolean = all(hashSetOf<Char>()::add)
 
 
     fun part1(input: List<String>): Int {
+    val SIGNAL_START_LENGTH = 4
 
         return input
             .map { it.windowed(SIGNAL_START_LENGTH) }
@@ -15,7 +15,12 @@ fun main() {
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        val MESSAGE_START_LENGTH = 14
+
+        return input
+            .map { it.windowed(MESSAGE_START_LENGTH) }
+            .flatten()
+            .indexOfFirst { it.allUnique() } + MESSAGE_START_LENGTH
 
 
     }
@@ -35,7 +40,7 @@ fun main() {
 
 // test if implementation meets criteria from the description, like:
     runTest(11, day, ::part1)
-    //runTest("MCD", day, ::part2)
+    runTest(26, day, ::part2)
 
 
     val input = readInput(day)
