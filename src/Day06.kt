@@ -5,22 +5,22 @@ fun main() {
 
 
     fun part1(input: List<String>): Int {
-    val SIGNAL_START_LENGTH = 4
+        val signalStartLength = 4
 
         return input
-            .map { it.windowed(SIGNAL_START_LENGTH) }
+            .map { it.windowed(signalStartLength) }
             .flatten()
-            .indexOfFirst { it.allUnique() } + SIGNAL_START_LENGTH
+            .indexOfFirst { it.allUnique() } + signalStartLength
 
     }
 
     fun part2(input: List<String>): Int {
-        val MESSAGE_START_LENGTH = 14
+        val messageStartLength = 14
 
         return input
-            .map { it.windowed(MESSAGE_START_LENGTH) }
+            .map { it.windowed(messageStartLength) }
             .flatten()
-            .indexOfFirst { it.allUnique() } + MESSAGE_START_LENGTH
+            .indexOfFirst { it.allUnique() } + messageStartLength
 
 
     }
