@@ -33,7 +33,6 @@ data class MyFile(val size: Int, val name: String)
 
 fun main() {
 
-    val dirLimit = 100000
     fun changeDir(cwd: MyDir, dir: String): MyDir {
 
         return if (dir == "..") cwd.parent ?: throw IllegalStateException("No parent")
@@ -67,6 +66,8 @@ fun main() {
 
 
     fun part1(input: List<String>): Int {
+        val dirLimit = 100000
+
         val fileSystem: MyDir = parseFileSystem(input)
 
         return fileSystem
@@ -81,7 +82,8 @@ fun main() {
         val fileSystem: MyDir = parseFileSystem(input)
         val freeSpace = totDiscSpace - fileSystem.dirSize
         val spaceNeeded = updateReqSpace - freeSpace
-        return fileSystem.getDirectoriesBySize { it >= spaceNeeded }
+        return fileSystem
+            .getDirectoriesBySize { it >= spaceNeeded }
             .minBy { it.dirSize }.dirSize
 
 
