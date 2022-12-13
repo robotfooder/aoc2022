@@ -29,20 +29,18 @@ data class MyFile(val size: Int, val name: String)
 fun main() {
 
 
-    fun doCommand(data: List<String>, cwd: MyDir): MyDir {
-        val command = data[1]
-        return if (command == "cd") {
-            val dir = data[2]
-            if (dir == "..") {
-                cwd.parent ?: throw IllegalStateException("No parent")
-            } else {
-                cwd.subDirs
-                    .find { it.name == dir }
-                    ?: if (cwd.name == dir) cwd
-                    else throw IllegalArgumentException("Could not find $dir in ${cwd.name}")
-            }
-        } else cwd
+    fun changeDir(cwd: MyDir, dir: String): MyDir {
 
+        return if (dir == "..") cwd.parent ?: throw IllegalStateException("No parent")
+        else cwd.subDirs
+            .find { it.name == dir }
+            ?: if (cwd.name == dir) cwd
+            else throw IllegalArgumentException("Could not find $dir in ${cwd.name}")
+
+    }
+
+    fun doCommand(data: List<String>, cwd: MyDir): MyDir {
+        return if (data[1] == "cd") changeDir(cwd, data[2]) else cwd
     }
 
     fun parseFileSystem(input: List<String>): MyDir {
@@ -69,8 +67,7 @@ fun main() {
 
     fun part1(input: List<String>): Int {
         val fileSystem: MyDir = parseFileSystem(input)
-        val smallDirs = getSmallDirectories(fileSystem.subDirs)
-        return smallDirs.sumOf { it.dirSize }
+        return getSmallDirectories(fileSystem.subDirs).sumOf { it.dirSize }
 
     }
 
