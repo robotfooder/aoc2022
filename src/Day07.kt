@@ -22,13 +22,18 @@ class MyDir(
         return this
 
     }
+
+    fun getDirectoriesBySize(sizeTest: (Int) -> Boolean): List<MyDir> {
+        return subDirs.filter { sizeTest(it.dirSize) } +
+                subDirs.flatMap { it.getDirectoriesBySize(sizeTest) }
+    }
 }
 
 data class MyFile(val size: Int, val name: String)
 
 fun main() {
 
-
+    val dirLimit = 100000
     fun changeDir(cwd: MyDir, dir: String): MyDir {
 
         return if (dir == "..") cwd.parent ?: throw IllegalStateException("No parent")
@@ -60,19 +65,25 @@ fun main() {
 
     }
 
-    fun getSmallDirectories(subDirs: MutableList<MyDir>): List<MyDir> =
-        subDirs.filter { it.dirSize <= 100000 } +
-                subDirs.flatMap { getSmallDirectories(it.subDirs) }
-
 
     fun part1(input: List<String>): Int {
         val fileSystem: MyDir = parseFileSystem(input)
-        return getSmallDirectories(fileSystem.subDirs).sumOf { it.dirSize }
+
+        return fileSystem
+            .getDirectoriesBySize { it <= dirLimit }
+            .sumOf { it.dirSize }
 
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        val totDiscSpace = 70000000
+        val updateReqSpace = 30000000
+        val fileSystem: MyDir = parseFileSystem(input)
+        val freeSpace = totDiscSpace - fileSystem.dirSize
+        val spaceNeeded = updateReqSpace - freeSpace
+        return fileSystem.getDirectoriesBySize { it >= spaceNeeded }
+            .minBy { it.dirSize }.dirSize
+
 
     }
 
@@ -91,7 +102,7 @@ fun main() {
 
 // test if implementation meets criteria from the description, like:
     runTest(95437, day, ::part1)
-    //runTest(26, day, ::part2)
+    runTest(24933642, day, ::part2)
 
 
     val input = readInput(day)
