@@ -5,7 +5,7 @@ class MyDir(
     private val files: MutableList<MyFile> = mutableListOf(),
     var dirSize: Int = 0,
 ) {
-    fun addFile(size: Int, name: String): MyDir {
+    fun addFile(size: Int, name: String) {
         files.add(MyFile(size, name))
         dirSize += size
         var parentDir = parent
@@ -13,14 +13,11 @@ class MyDir(
             parentDir.dirSize += size
             parentDir = parentDir.parent
         }
-        return this
 
     }
 
-    fun addDirectory(name: String): MyDir {
+    fun addDirectory(name: String) {
         subDirs.add(MyDir(name = name, parent = this))
-        return this
-
     }
 
     fun getDirectoriesBySize(sizeTest: (Int) -> Boolean): List<MyDir> {
@@ -53,8 +50,8 @@ fun main() {
 
         input.forEach { row ->
             val data = row.split(" ")
-            cwd = when (data[0]) {
-                "$" -> doCommand(data, cwd)
+            when (data[0]) {
+                "$" -> cwd =doCommand(data, cwd)
                 "dir" -> cwd.addDirectory(data[1])
                 else -> cwd.addFile(data[0].toInt(), data[1])
             }
@@ -72,19 +69,19 @@ fun main() {
 
         return fileSystem
             .getDirectoriesBySize { it <= dirLimit }
-            .sumOf { it.dirSize }
+            .sumOf(MyDir::dirSize)
 
     }
 
     fun part2(input: List<String>): Int {
         val totDiscSpace = 70000000
         val updateReqSpace = 30000000
-        val fileSystem: MyDir = parseFileSystem(input)
+        val fileSystem = parseFileSystem(input)
         val freeSpace = totDiscSpace - fileSystem.dirSize
         val spaceNeeded = updateReqSpace - freeSpace
         return fileSystem
             .getDirectoriesBySize { it >= spaceNeeded }
-            .minBy { it.dirSize }.dirSize
+            .minBy(MyDir::dirSize).dirSize
 
 
     }
