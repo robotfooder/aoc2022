@@ -11,7 +11,7 @@ fun readInput(name: String) = File("src", "main/resources/$name/input.txt")
 fun readTestInput(name: String) = File("src", "main/resources/$name/input_test.txt")
     .readLines()
 
-fun <T> List<T>.chunkedBy(selector: (T) -> Boolean): List<List<T>> =
+fun <T> List<T>.chunkedBy(selector: (T) -> Boolean) =
     fold(mutableListOf(mutableListOf<T>())) { acc, ele ->
 
         if (selector(ele)) {
