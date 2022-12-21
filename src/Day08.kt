@@ -18,7 +18,6 @@ data class Grid(val cells: List<Cell>) {
 
     }
 
-
 }
 
 
@@ -67,7 +66,6 @@ fun main() {
         } else {
             smaller.size
         }
-
 
     }
 
