@@ -22,6 +22,7 @@ fun <T> List<T>.chunkedBy(selector: (T) -> Boolean) =
         acc
     }
 
+
 /**
  * Converts string to md5 hash.
  */
