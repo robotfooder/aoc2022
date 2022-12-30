@@ -1,5 +1,3 @@
-import java.lang.IllegalArgumentException
-
 data class Step(val dir: Direction, val length: Int)
 
 enum class Direction {
@@ -13,9 +11,7 @@ enum class Direction {
                 "D" -> DOWN
                 "R" -> RIGHT
                 "L" -> LEFT
-                else -> {
-                    throw IllegalArgumentException(dir)
-                }
+                else -> error(dir)
             }
         }
     }
@@ -41,12 +37,12 @@ fun main() {
         val steps = input.map { it.toStep() }
 
         var headPosition = Pair(0, 0)
-        val tailPositions = mutableListOf<Pair<Int, Int>>()
+        val tailPositions = mutableSetOf<Pair<Int, Int>>()
         tailPositions.add(Pair(0, 0))
 
         for (step in steps) {
 
-            for (distance in 1..step.length) {
+            repeat(step.length) {
                 headPosition = headPosition.move(step.dir)
                 val lastTailPosition = tailPositions.last()
 
@@ -61,17 +57,18 @@ fun main() {
 
         }
 
-        return tailPositions.groupingBy { it }.eachCount().size
+        return tailPositions.size
     }
 
 
     fun part2(input: List<String>): Int {
-        val tailPositions = mutableListOf<Pair<Int, Int>>()
+        val tailPositions = mutableSetOf<Pair<Int, Int>>()
 
         val steps = input.map { it.toStep() }
         val knots = MutableList(10) {
             Pair(0, 0)
         }
+
         for (step in steps) {
             for (distance in 1..step.length) {
                 knots[0] = knots[0].move(step.dir)
@@ -89,7 +86,7 @@ fun main() {
             }
         }
 
-        return tailPositions.groupingBy { it }.eachCount().size
+        return tailPositions.size
 
 
     }
