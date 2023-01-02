@@ -1,26 +1,19 @@
-data class Instruction2(val type: String, val value: Int)
-
 fun main() {
 
 
     fun part1(input: List<String>): Int {
 
 
-        val test = input
-            .flatMap { it.toInstruction2() }
-
-        var x = 1
         val signalStrengths = listOf(20, 60, 100, 140, 180, 220)
-        var signalStrength = 0
-        for ((index, instruction) in test.withIndex()) {
-            if (signalStrengths.contains(index + 1)) {
-                signalStrength += (index + 1) * x
-            }
-            x += instruction.value
-        }
+
+        return input
+            .flatMap { it.toNumberList() }
+            .runningFold(1) { acc, num -> acc + num }
+            .filterIndexed { index, _ -> signalStrengths.contains(index + 1) }
+            .mapIndexed { index, i -> i * signalStrengths[index] }
+            .sum()
 
 
-        return signalStrength
     }
 
 
@@ -41,12 +34,12 @@ fun main() {
     println(part2(input))
 }
 
-private fun String.toInstruction2(): List<Instruction2> {
+private fun String.toNumberList(): List<Int> {
     val test = this.split(" ")
     return if (test[0] == "noop") {
-        listOf(Instruction2(test[0], 0))
+        listOf(0)
     } else if (test[0] == "addx") {
-        listOf(Instruction2(test[0], 0), Instruction2(test[0], test[1].toInt()))
+        listOf(0, test[1].toInt())
     } else {
         error(this)
     }
