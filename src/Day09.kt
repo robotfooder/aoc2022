@@ -1,7 +1,10 @@
 data class Step(val dir: Direction, val length: Int)
-
-enum class Direction {
-    UP, DOWN, LEFT, RIGHT;
+data class Move(val x: Int, val y: Int)
+enum class Direction(val move: Move) {
+    UP(Move(0, 1)),
+    DOWN(Move(0, -1)),
+    LEFT(Move(-1, 0)),
+    RIGHT(Move(1, 0));
 
     companion object {
         fun fromString(dir: String): Direction {
@@ -16,6 +19,7 @@ enum class Direction {
         }
     }
 }
+
 
 fun main() {
 
@@ -43,7 +47,7 @@ fun main() {
         for (step in steps) {
 
             repeat(step.length) {
-                headPosition = headPosition.move(step.dir)
+                headPosition += step.dir.move
                 val lastTailPosition = tailPositions.last()
 
                 if (!headPosition.isTouching(lastTailPosition)) {
@@ -70,8 +74,8 @@ fun main() {
         }
 
         for (step in steps) {
-            for (distance in 1..step.length) {
-                knots[0] = knots[0].move(step.dir)
+            repeat(step.length) {
+                knots[0] = knots[0] + step.dir.move
 
                 for (i in 0 until knots.size - 1) {
                     if (!knots[i].isTouching(knots[i + 1])) {
@@ -94,7 +98,7 @@ fun main() {
     val day = "09"
 
 // test if implementation meets criteria from the description, like:
-    //runTest(13, day, ::part1)
+    runTest(46, day, ::part1)
     runTest(36, day, ::part2)
 
     val input = readInput(day)
@@ -102,15 +106,8 @@ fun main() {
     println(part2(input))
 }
 
-private fun Pair<Int, Int>.move(dir: Direction): Pair<Int, Int> {
-    return when (dir) {
-        Direction.UP -> Pair(this.first, this.second + 1)
-        Direction.DOWN -> Pair(this.first, this.second - 1)
-        Direction.LEFT -> Pair(this.first - 1, this.second)
-        Direction.RIGHT -> Pair(this.first + 1, this.second)
-    }
+private operator fun Pair<Int, Int>.plus(move: Move): Pair<Int, Int> = Pair(this.first + move.x, this.second + move.y)
 
-}
 
 private fun Pair<Int, Int>.isTouching(otherPair: Pair<Int, Int>): Boolean {
 
