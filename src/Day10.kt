@@ -18,6 +18,23 @@ fun main() {
 
 
     fun part2(input: List<String>): Int {
+        val cycles = input
+            .flatMap { it.toNumberList() }
+            .runningFold(1) { acc, num -> acc + num }
+            .chunked(40)
+
+
+        cycles.forEach { rows ->
+            rows.forEachIndexed { index, cycleVal ->
+                if (index in cycleVal - 1..cycleVal + 1) {
+                    print("#")
+                } else {
+                    print(".")
+                }
+            }
+            println()
+        }
+
         return 0
 
 
@@ -27,7 +44,7 @@ fun main() {
 
 // test if implementation meets criteria from the description, like:
     runTest(13140, day, ::part1)
-    //runTest(36, day, ::part2)
+    runTest(0, day, ::part2)
 
     val input = readInput(day)
     println(part1(input))
