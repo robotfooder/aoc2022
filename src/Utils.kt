@@ -34,6 +34,15 @@ fun String.splitToPair(index: Int): Pair<String, String> = this.substring(0, ind
 
 fun Char.score(): Int = if (this.isUpperCase()) this.code - 38 else this.code - 96
 
+fun runTestLong(expected: Long, day: String, testFunction: (List<String>) -> Long) {
+    val actual = testFunction(readTestInput(day))
+    check(expected == actual)
+    {
+        "Failing for day $day, ${testFunction}. " +
+                "Expected $expected but got $actual"
+    }
+}
+
 fun runTest(expected: Int, day: String, testFunction: (List<String>) -> Int) {
     val actual = testFunction(readTestInput(day))
     check(expected == actual)
