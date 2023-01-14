@@ -103,7 +103,7 @@ data class Monkey(
     var inspectedItems: Long = 0
 
     fun inspectItems(reliefer: (Long) -> Long): List<Pair<Int, Long>> {
-        val result = items.map { inspectItem(it, reliefer) }
+        val result = items.map { reliefer.inspectItem(it) }
         items.clear()
         return result
 
@@ -116,15 +116,15 @@ data class Monkey(
         return if (operator == "+") item + modValue else item * modValue
     }
 
-    private fun inspectItem(item: Long, reliefer: (Long) -> Long): Pair<Int, Long> {
+    private fun ((Long) -> Long).inspectItem(item: Long): Pair<Int, Long> {
         val worryLevel = performOperation(item)
         if(worryLevel<0){
-            error(this)
+            error(this@Monkey)
         }
-        val worryLevelAfterRelief = reliefer(worryLevel)
+        val worryLevelAfterRelief = this(worryLevel)
 
         val toMonkey = runTests(worryLevelAfterRelief)
-        this.inspectedItems++
+        this@Monkey.inspectedItems++
         return Pair(toMonkey, worryLevelAfterRelief)
 
     }
